@@ -36,22 +36,30 @@ st.subheader(f"{option} for the next {days} days in {place}")
 st.text("Forecast in ascending order : 1 to many days from now.")
 st.text("Times : 8AM, 11AM, 2PM, 5PM, 8PM, 11PM, 2AM, 5AM")
 # get: temp or sky data
-data = get_data(place=place, forecast_days=days, state=state)
+
+try:
+    data = get_data(place=place, forecast_days=days, state=state)
+except KeyError:
+    st.write("Please enter a location to forecast the weather. ")
+
 
 # create a : temp or sky plot
-filtered_data = get_data(place=place, forecast_days=days)
-if option == "Temperature":
-    temp = [dict['main']['temp'] for dict in filtered_data]
-    # create list compr for days
-    dates = [dict["dt_txt"] for dict in filtered_data]
-    # Temp plot
-    figure = px.line(x=dates, y=temp, labels={"x": "Date", "y": "Temperature (C)"})
-    st.plotly_chart(figure)
+try:
+    filtered_data = get_data(place=place, forecast_days=days)
+    if option == "Temperature":
+        temp = [dict['main']['temp']/10 for dict in filtered_data]
+        # create list compr for days
+        dates = [dict["dt_txt"] for dict in filtered_data]
+        # Temp plot
+        figure = px.line(x=dates, y=temp, labels={"x": "Date", "y": "Temperature (C)"})
+        st.plotly_chart(figure)
 
-if option == "Sky":
-    images = {"Clear": "images/clear.png", "Clouds": "images/cloud.png",
-              "Rain": "images/rain.png", "Snow": "images/snow.png"}
-    sky_conditions = [dict['weather'][0]['main'] for dict in filtered_data]
-    # Translate the filepaths with list comprehension
-    img_paths = [images[condition] for condition in sky_conditions]
-    st.image(img_paths, width=150)
+    if option == "Sky":
+        images = {"Clear": "images/clear.png", "Clouds": "images/cloud.png",
+                  "Rain": "images/rain.png", "Snow": "images/snow.png"}
+        sky_conditions = [dict['weather'][0]['main'] for dict in filtered_data]
+        # Translate the filepaths with list comprehension
+        img_paths = [images[condition] for condition in sky_conditions]
+        st.image(img_paths, width=150)
+except KeyError:
+    st.write("That place does not exist")
