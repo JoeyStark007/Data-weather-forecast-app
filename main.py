@@ -4,7 +4,7 @@ from backend import get_data
 
 # Add : title, text input, slider, select-box, and sub-header
 
-st.title("Weather Forecast for the Next Days")
+st.title("Joe's Weather Forecast for the Next Days")
 place = st.text_input("Place: In any language ")
 st.write("Please only select US state if its a US city: ")
 state = st.selectbox("Select US state for US city",
