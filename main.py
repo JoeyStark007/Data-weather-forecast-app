@@ -2,7 +2,7 @@ import streamlit as st
 import plotly.express as px
 from backend import get_data
 
-# Add : title, text input, slider, select-box, and sub-header
+# Add the : title, text input, slider, select-box, and sub-header
 
 col1, col2, col3 = st.columns(3)
 
