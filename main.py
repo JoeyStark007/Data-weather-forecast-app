@@ -1,5 +1,6 @@
 import streamlit as st
-import plotly_express as px
+from plotly import express as px
+# import plotly-express as px
 from backend import get_data
 
 # Add the : title, text input, slider, select-box, and sub-header
@@ -42,12 +43,11 @@ try:
 except KeyError:
     st.write("Please enter a location to forecast the weather. ")
 
-
 # create a : temp or sky plot
 try:
     filtered_data = get_data(place=place, forecast_days=days)
     if option == "Temperature":
-        temp = [dict['main']['temp']/10 for dict in filtered_data]
+        temp = [dict['main']['temp'] / 10 for dict in filtered_data]
         # create list compr for days
         dates = [dict["dt_txt"] for dict in filtered_data]
         # Temp plot
