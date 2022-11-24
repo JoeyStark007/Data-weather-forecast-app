@@ -1,6 +1,6 @@
 import streamlit as st
 # from plotly import express as px
-import plotly_express as px
+import plotly.express as px
 from backend import get_data
 
 # Add the : title, text input, slider, select-box, and sub-header
